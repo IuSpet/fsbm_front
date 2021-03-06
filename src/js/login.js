@@ -49,16 +49,18 @@ $(function () {
             },
             sendRegisterReq: function () {
                 let body = {
-                    "email": this.email,
+                    "email": this.emailAddr.toString(),
                     "name": this.name,
-                    "password": this.password
+                    "password": this.password,
+                    "phone": this.phone
                 }
                 $.ajax({
-                    type: "post",
+                    type: "POST",
                     url: "http://127.0.0.1:8080/user/register",
                     async: true,
+                    contentType: "application/json",
                     dataType: "json",
-                    data: body,
+                    data: JSON.stringify(body),
                     success: function (data) {
                         console.log(data)
                     },
