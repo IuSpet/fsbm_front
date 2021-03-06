@@ -48,7 +48,24 @@ $(function () {
 
             },
             sendRegisterReq: function () {
-
+                let body = {
+                    "email": this.email,
+                    "name": this.name,
+                    "password": this.password
+                }
+                $.ajax({
+                    type: "post",
+                    url: "http://127.0.0.1:8080/user/register",
+                    async: true,
+                    dataType: "json",
+                    data: body,
+                    success: function (data) {
+                        console.log(data)
+                    },
+                    error: function (errorMsg) {
+                        alert(errorMsg)
+                    }
+                })
             }
         }
     })
