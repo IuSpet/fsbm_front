@@ -11,6 +11,7 @@ $(function () {
             rememberMe: false,
             emailAddr: '',
             password: '',
+            passwordRepeat: '',
             phone: '',
             name: '',
             authCode: ''
@@ -123,12 +124,18 @@ $(function () {
                 });
             },
             sendRegisterReq: function () {
+                if (this.password !== this.passwordRepeat) {
+                    loginToastVm.showToast(WARN, '两次输入密码不一致');
+                    return;
+                }
+
                 let body = {
                     email: this.emailAddr.toString(),
                     name: this.name,
                     password: this.password,
                     phone: this.phone
                 }
+
                 let url = ENV + URL.user.register;
                 sendPostRequest({
                     url: url,

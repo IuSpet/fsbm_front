@@ -1,3 +1,4 @@
+'use strict'
 var sendPostRequest = function (options) {
     $.ajax({
         type: "POST",
@@ -17,4 +18,8 @@ var sendPostRequest = function (options) {
             }
         }
     })
+};
+
+var isPasswordAvailable = function (password)  {
+
 }
