@@ -14,6 +14,10 @@ const URL = {
     },
     tool: {
         sendEmailCode: '/tool/no_auth/generate_verification_code'
+    },
+    admin: {
+        userList: '/admin/user_list',
+        userListCsv: '/admin/user_list/csv'
     }
 }
 const INFO = '提示'
