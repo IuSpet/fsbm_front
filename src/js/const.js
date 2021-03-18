@@ -10,16 +10,19 @@ const URL = {
         logout: '/user/logout',
         modify: '/user/modify',
         delete: '/user/delete',
-        applyRole: '/user/apply_role'
+        applyRole: '/user/apply_role',
+        getProfile: '/user/get_profile'
     },
     tool: {
         sendEmailCode: '/tool/no_auth/generate_verification_code'
     },
     admin: {
         userList: '/admin/user_list',
-        userListCsv: '/admin/user_list/csv'
+        userListCsv: '/admin/user_list/csv',
+        userRegister: '/admin/user_register/line_chart'
     }
 }
 const INFO = '提示'
 const WARN = '警告'
 const ERROR = '错误'
+// export {ENV,URL,INFO,WARN,ERROR}

@@ -115,6 +115,7 @@ $(function () {
                             return;
                         }
                         loginToastVm.showToast(INFO, '登录成功');
+                        $.cookie("login-email", body.email, {expires: 7, path: '/'})
                         // todo:跳转
                     },
                     error: function (msg) {
@@ -147,6 +148,7 @@ $(function () {
                             return
                         }
                         // todo:跳转到下一个页面
+                        $.cookie("login-email", body.email, {expires: 7, path: '/'})
                         loginToastVm.showToast(INFO, '登录成功');
                     },
                     error: function (msg) {

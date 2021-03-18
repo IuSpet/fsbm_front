@@ -1,3 +1,9 @@
 .login-title {
     padding-top: 20px;
 }
+
+.common-toast {
+    top: 0;
+    left: 50%;
+    position: fixed;
+}

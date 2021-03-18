@@ -1,5 +1,4 @@
-'use strict'
-var sendPostRequest = function (options) {
+const sendPostRequest = function (options) {
     $.ajax({
         type: "POST",
         url: options.url,
@@ -20,6 +19,21 @@ var sendPostRequest = function (options) {
     })
 };
 
-var isPasswordAvailable = function (password)  {
+var isPasswordAvailable = function (password) {
 
 }
+
+const fileDownload = function (data, fileName) {
+    if (!data) {
+        return;
+    }
+    let url = window.URL.createObjectURL(new Blob([data]));
+    let link = document.createElement('a');
+    link.style.display = 'none';
+    link.href = url;
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+}
+
+// export {sendPostRequest}
