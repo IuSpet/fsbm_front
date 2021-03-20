@@ -20,9 +20,27 @@ const userListFormVm = new Vue({
         showRange: '0到0',
         maxPage: 10,
         option: null,
-        myChart: null
+        myChart: null,
+        sort: {
+            Name: null,
+            Email: null,
+            Phone: null,
+            Gender: null,
+            Age: null,
+            CreatedAt: null,
+            Status: null
+        },
+        sortQueue: [],
+        axiosHandler: null
     },
     created: function () {
+        this.axiosHandler = axios.create({
+            headers: {
+                post: {
+                    email: $.cookie('login-email')
+                }
+            }
+        });
         this.sendGetUserListRequest();
         if (this.option === null) {
             this.option = {
@@ -62,48 +80,54 @@ const userListFormVm = new Vue({
                 email: this.emailAddr,
                 phone: this.phone,
                 page: this.page,
-                pageSize: this.pageSize
+                page_size: this.pageSize
             }
             let url = ENV + URL.admin.userList;
-            let listVm = this
-            sendPostRequest({
+            let listVm = this;
+            this.axiosHandler({
+                method: 'post',
                 url: url,
-                data: this.getValidBody(body),
-                success: function (data) {
-                    listVm.rows = data.data['user_info_list'];
-                    listVm.totalCnt = data.data['total_count'];
-                    listVm.showRange = ((listVm.page - 1) * listVm.pageSize + 1) + "到" + Math.min(listVm.totalCnt, listVm.page * listVm.pageSize + listVm.pageSize);
-                    listVm.maxPage = Math.ceil(listVm.totalCnt / listVm.pageSize)
-                },
-                error: function (msg) {
-                    console.log("err:" + msg);
+                data: this.getValidBody(body)
+            }).then(rsp => {
+                if (rsp.data.status !== 0) {
+                    console.log(data.data.message);
+                    return;
                 }
+                listVm.rows = rsp.data.data['user_info_list'];
+                listVm.totalCnt = rsp.data.data['total_count'];
+                listVm.showRange = ((listVm.page - 1) * listVm.pageSize + 1) + "到" + Math.min(listVm.totalCnt, listVm.page * listVm.pageSize + listVm.pageSize);
+                listVm.maxPage = Math.ceil(listVm.totalCnt / listVm.pageSize);
+            }).catch(err => {
+                console.log(err);
             });
-            url = ENV + URL.admin.userRegister
-            sendPostRequest({
+            url = ENV + URL.admin.userRegister;
+            this.axiosHandler({
+                method: 'post',
                 url: url,
-                data: this.getValidBody(body),
-                success: function (data) {
-                    listVm.option = {
-                        xAxis: {
-                            type: 'category',
-                            data: data.data.series.map(a => a['date'])
-                        },
-                        yAxis: {
-                            type: 'value'
-                        },
-                        series: [{
-                            data: data.data.series.map(a => a['cnt']),
-                            type: 'line'
-                        }]
-                    };
-                    if (listVm.myChart !== null) {
-                        listVm.setChartOption()
-                    }
-                },
-                error: function (msg) {
-                    console.log("err:" + msg);
+                data: this.getValidBody(body)
+            }).then(rsp => {
+                if (rsp.data.status !== 0) {
+                    console.log(rsp.data.message);
+                    return;
                 }
+                listVm.option = {
+                    xAxis: {
+                        type: 'category',
+                        data: rsp.data.data.series.map(a => a['date'])
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data: rsp.data.data.series.map(a => a['cnt']),
+                        type: 'line'
+                    }]
+                };
+                if (listVm.myChart !== null) {
+                    listVm.setChartOption();
+                }
+            }).catch(err => {
+                console.log(err);
             })
         },
         getValidBody: function (body) {
@@ -163,6 +187,92 @@ const userListFormVm = new Vue({
         },
         setChartOption: function () {
             this.myChart.setOption(this.option);
+        },
+        clickSortField: function (field) {
+            switch (this.sort[field]) {
+                case 'asc':
+                    this.sort[field] = 'desc';
+                    this.pushNewDescField(field);
+                    break;
+                case 'desc':
+                    this.sort[field] = null;
+                    this.removeSortField(field);
+                    break;
+                case null:
+                    this.sort[field] = 'asc';
+                    this.pushNewAscField(field);
+                    break;
+                default:
+                    this.sort[field] = null;
+                    this.removeSortField(field);
+            }
+            console.log(this.sortQueue);
+            let body = {
+                name: this.name,
+                gender: this.gender,
+                age: this.age,
+                create_begin: this.createdBegin,
+                create_end: this.createdEnd,
+                email: this.emailAddr,
+                phone: this.phone,
+                page: this.page,
+                page_size: this.pageSize,
+                sort_fields: this.sortQueue
+            };
+            let url = ENV + URL.admin.userList;
+            let listVm = this;
+            this.axiosHandler({
+                method: 'post',
+                url: url,
+                data: this.getValidBody(body)
+            }).then(rsp => {
+                if (rsp.data.status !== 0) {
+                    console.log(rsp.data.message);
+                    return;
+                }
+                listVm.rows = rsp.data.data['user_info_list'];
+                listVm.totalCnt = rsp.data.data['total_count'];
+                listVm.showRange = ((listVm.page - 1) * listVm.pageSize + 1) + "到" + Math.min(listVm.totalCnt, listVm.page * listVm.pageSize + listVm.pageSize);
+                listVm.maxPage = Math.ceil(listVm.totalCnt / listVm.pageSize);
+            }).catch(err => {
+                console.log(err);
+            });
+
+        },
+        pushNewAscField: function (field) {
+            let sortField = {
+                field: field,
+                order: 'asc'
+            };
+            this.sortQueue.push(sortField);
+        },
+        pushNewDescField: function (field) {
+            for (let item of this.sortQueue) {
+                if (item['field'] === field) {
+                    item['order'] = 'desc';
+                    break;
+                }
+            }
+        },
+        removeSortField: function (field) {
+            let idx = this.sortQueue.findIndex(item => {
+                return item['field'] === field;
+            })
+            if (idx !== -1) {
+                this.sortQueue.splice(idx, 1);
+            }
+        },
+        resetSort: function () {
+            this.sort = {
+                name: null,
+                email: null,
+                phone: null,
+                gender: null,
+                age: null,
+                created_at: null,
+                status: null
+            };
+            this.sortQueue = [];
         }
     }
 });

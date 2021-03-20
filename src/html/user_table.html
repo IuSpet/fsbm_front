@@ -317,13 +317,110 @@
                         <table class="table table-hover table-bordered">
                             <thead>
                             <tr>
-                                <th>用户名</th>
-                                <th>邮箱</th>
-                                <th>手机号</th>
-                                <th>性别</th>
-                                <th>年龄</th>
-                                <th>注册时间</th>
-                                <th>状态</th>
+                                <th>
+                                    <button type="button" class="btn" v-if="sort['Name']==='asc'"
+                                            @click="clickSortField('Name')">用户名<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-up.png"
+                                            alt="asc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else-if="sort['Name']==='desc'"
+                                            @click="clickSortField('Name')">用户名<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-down.png"
+                                            alt="desc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else @click="clickSortField('Name')">用户名
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="btn" v-if="sort['Email']==='asc'"
+                                            @click="clickSortField('Email')">邮箱<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-up.png"
+                                            alt="asc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else-if="sort['Email']==='desc'"
+                                            @click="clickSortField('Email')">邮箱<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-down.png"
+                                            alt="desc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else @click="clickSortField('Email')">邮箱
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="btn" v-if="sort['Phone']==='asc'"
+                                            @click="clickSortField('Phone')">手机号<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-up.png"
+                                            alt="asc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else-if="sort['Phone']==='desc'"
+                                            @click="clickSortField('Phone')">手机号<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-down.png"
+                                            alt="desc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else
+                                            @click="clickSortField('Phone')">手机号
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="btn" v-if="sort['Gender']==='asc'"
+                                            @click="clickSortField('Gender')">性别<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-up.png"
+                                            alt="asc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else-if="sort['Gender']==='desc'"
+                                            @click="clickSortField('Gender')">性别<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-down.png"
+                                            alt="desc"/>
+                                    </button>
+                                    <button
+                                            type="button" class="btn" v-else
+                                            @click="clickSortField('Gender')">性别
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="btn" v-if="sort['Age']==='asc'"
+                                            @click="clickSortField('Age')">年龄<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-up.png"
+                                            alt="asc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else-if="sort['Age']==='desc'"
+                                            @click="clickSortField('Age')">年龄<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-down.png"
+                                            alt="desc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else
+                                            @click="clickSortField('Age')">年龄
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="btn" v-if="sort['CreatedAt']==='asc'"
+                                            @click="clickSortField('CreatedAt')">注册时间<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-up.png"
+                                            alt="asc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else-if="sort['CreatedAt']==='desc'"
+                                            @click="clickSortField('CreatedAt')">注册时间<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-down.png"
+                                            alt="desc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else
+                                            @click="clickSortField('CreatedAt')">注册时间
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="btn" v-if="sort['Status']==='asc'"
+                                            @click="clickSortField('Status')">状态<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-up.png"
+                                            alt="asc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else-if="sort['Status']==='desc'"
+                                            @click="clickSortField('Status')">状态<img
+                                            src="https://img.icons8.com/material-rounded/24/000000/sort-down.png"
+                                            alt="desc"/>
+                                    </button>
+                                    <button type="button" class="btn" v-else
+                                            @click="clickSortField('Status')">状态
+                                    </button>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
