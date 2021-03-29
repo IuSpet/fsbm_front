@@ -1,7 +1,7 @@
 const TEST_ENV = 'http://127.0.0.1:8080';
-const PRODUCT_ENV = '';
+const PRODUCT_ENV = 'http://47.95.248.242:8080';
 // 测试环境和生成环境切换，上线前确保是生产环境
-const ENV = 'http://127.0.0.1:8080';
+const ENV = 'http://47.95.248.242:8080';
 const URL = {
     user: {
         register: '/user/register',
@@ -22,7 +22,14 @@ const URL = {
         userRegister: '/admin/user_register/line_chart'
     }
 }
-const INFO = '提示'
-const WARN = '警告'
-const ERROR = '错误'
+const PATH = {
+    login: "",
+    user_table: "",
+    user_profile: "",
+}
+const PwdRegex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,30}');
+const EmailRegex = new RegExp('^[a-z0-9A-Z]+[-|a-z0-9A-Z._]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$')
+const INFO = '提示';
+const WARN = '警告';
+const ERROR = '错误';
 // export {ENV,URL,INFO,WARN,ERROR}
