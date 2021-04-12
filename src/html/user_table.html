@@ -19,7 +19,7 @@
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="../../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!--    <link href="../../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">-->
     <link rel="stylesheet" href="../../lib/bootstrap-4.6.0-dist/css/bootstrap.css">
 
 </head>
@@ -438,11 +438,14 @@
                         </table>
                     </div>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-3">
                             共{{totalCnt}}条数据，当前展示{{showRange}}条
                         </div>
                         <div class="col-2">
                             <button type="button" class="btn btn-info" @click="exportData">导出数据</button>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-info" @click="printTable">打印</button>
                         </div>
                         <div class="col-2">
                             <div class="dropdown">
@@ -457,7 +460,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
                             <ul class="pagination pagination-sm" style="float: right;padding-right: 30px">
                                 <li class="page-item">
                                     <button type="button" class="page-link" @click="changePage(page-1)">Previous

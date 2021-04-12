@@ -97,6 +97,7 @@ const userListFormVm = new Vue({
                 listVm.totalCnt = rsp.data.data['total_count'];
                 listVm.showRange = ((listVm.page - 1) * listVm.pageSize + 1) + "到" + Math.min(listVm.totalCnt, listVm.page * listVm.pageSize + listVm.pageSize);
                 listVm.maxPage = Math.ceil(listVm.totalCnt / listVm.pageSize);
+                this.resetSort();
             }).catch(err => {
                 console.log(err);
             });
@@ -273,6 +274,21 @@ const userListFormVm = new Vue({
                 status: null
             };
             this.sortQueue = [];
+        },
+        printTable: function () {
+            let body = this.getValidBody({
+                name: this.name,
+                gender: this.gender,
+                age: this.age,
+                create_begin: this.createdBegin,
+                create_end: this.createdEnd,
+                email: this.emailAddr,
+                phone: this.phone,
+                page: this.page,
+                page_size: this.pageSize
+            });
+            window.sessionStorage.setItem('user_list_req', JSON.stringify(body));
+            window.open('user_list_print.html');
         }
     }
 });

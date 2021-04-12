@@ -152,3 +152,71 @@ const profileToastVm = new Vue({
         }
     }
 })
+
+const uploadAvatarVm = new Vue({
+    el: '#upload_avatar',
+    data: {
+        axiosHandler: null,
+        avatar: null,
+        file: null,
+        message: null,
+        img: null,
+        reader: null,
+    },
+    created: function () {
+        let loginEmail = $.cookie('login-email');
+        this.axiosHandler = axios.create({
+            headers: {
+                post: {
+                    email: loginEmail
+                }
+            }
+        });
+        this.reader = new FileReader();
+        this.img = new Image();
+        let convas = document.createElement('canvas');
+        let context = convas.getContext('2d');
+        this.img.onload = function () {
+            let targetWidth = 64, targetHeight = 64;
+            convas.width = targetWidth;
+            convas.height = targetHeight;
+            context.clearRect(0, 0, targetWidth, targetHeight);
+            context.drawImage(uploadAvatarVm.img, 0, 0, targetWidth, targetHeight);
+            convas.toBlob(blob => {
+                console.log(blob);
+                uploadAvatarVm.avatar = blob;
+            }, 'image/png')
+        };
+        this.reader.onload = function (e) {
+            uploadAvatarVm.img.src = e.target.result;
+        };
+    },
+    methods: {
+        uploadAvatar: function () {
+            let url = ENV + URL.user.setAvatar;
+            console.log(this.avatar);
+            // let xhr = new XMLHttpRequest();
+            // xhr.onreadystatechange = function () {
+            //     if (xhr.status === 200) {
+            //         console.log(xhr.responseText);
+            //     }
+            // };
+            // xhr.open('post', url, true);
+            // xhr.send(this.avatar);
+            this.axiosHandler({
+                method: 'post',
+                url: url,
+                data: this.avatar,
+                headers: {
+                    'content-type': 'image/png',
+                },
+            }).then(rsp => {
+                console.log(rsp)
+            })
+        },
+        setAvatar: function (event) {
+            this.file = event.target.files[0];
+            this.reader.readAsDataURL(this.file);
+        }
+    }
+})
